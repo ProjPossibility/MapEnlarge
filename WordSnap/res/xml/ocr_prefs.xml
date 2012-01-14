@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2009 Spiros Papadimitriou <spapadim@cs.cmu.edu>
+  
+  This file is part of WordSnap OCR.
+  
+  WordSnap is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  WordSnap is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with WordSnap.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="@string/pref_web_ocr_category">
+		<Preference android:key="weocr_endpoint_url" 
+            android:title="@string/pref_weocr_server"
+            android:summary="@string/pref_weocr_server_summary" />
+    </PreferenceCategory>
+    
+    <PreferenceCategory android:title="@string/pref_ui_category">
+        <CheckBoxPreference android:key="continuous_mode"
+           android:title="@string/pref_continuous_mode"
+           android:summary="@string/pref_continuous_mode_summary"
+           android:defaultValue="true" />
+        <CheckBoxPreference android:key="edit_before"
+            android:title="@string/pref_edit_before"
+            android:summary="@string/pref_edit_before_summary"
+            android:defaultValue="false" />
+        <ListPreference android:key="extent_alert"
+            android:title="@string/pref_extent_alert"
+            android:summary="@string/pref_extent_alert_summary" 
+            android:entries="@array/pref_alert_on_warning_entries"
+            android:entryValues="@array/pref_alert_on_warning_values"
+            android:defaultValue="@string/pref_extent_alert_default" />
+        <ListPreference android:key="focus_alert"
+            android:title="@string/pref_focus_alert"
+            android:summary="@string/pref_focus_alert_summary" 
+            android:entries="@array/pref_alert_on_warning_entries"
+            android:entryValues="@array/pref_alert_on_warning_values"
+            android:defaultValue="@string/pref_focus_alert_default" />
+        <ListPreference android:key="contrast_alert"
+            android:title="@string/pref_contrast_alert"
+            android:summary="@string/pref_contrast_alert_summary" 
+            android:entries="@array/pref_alert_on_warning_entries"
+            android:entryValues="@array/pref_alert_on_warning_values"
+            android:defaultValue="@string/pref_contrast_alert_default" />
+    </PreferenceCategory>
+	
+	<PreferenceCategory android:title="@string/pref_advanced_category">
+		<CheckBoxPreference android:key="enable_debug_dump" 
+        	android:title="@string/pref_debug_dump"
+			android:summary="@string/pref_debug_dump_summary"
+			android:defaultValue="false" />
+	   <ListPreference android:title="@string/pref_dilate_radius"
+	       android:summary="@string/pref_dilate_radius_summary"
+	       android:entries="@array/pref_dilate_radius_entries"
+	       android:entryValues="@array/pref_dilate_radius_values"
+	       android:defaultValue="@string/pref_dilate_radius_default" android:key="dilate_radius"/>
+	</PreferenceCategory>
+</PreferenceScreen>
