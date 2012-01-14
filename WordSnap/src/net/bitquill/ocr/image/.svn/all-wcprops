@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/31/trunk/src/net/bitquill/ocr/image
+END
+StructuringElement.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/24/trunk/src/net/bitquill/ocr/image/StructuringElement.java
+END
+GrayImage.java
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/31/trunk/src/net/bitquill/ocr/image/GrayImage.java
+END
+GrayMatrix.java
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/24/trunk/src/net/bitquill/ocr/image/GrayMatrix.java
+END
+SimpleStructuringElement.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/24/trunk/src/net/bitquill/ocr/image/SimpleStructuringElement.java
+END

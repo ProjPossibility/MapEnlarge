@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2009 Spiros Papadimitriou <spapadim@cs.cmu.edu>
+  
+  This file is part of WordSnap OCR.
+  
+  WordSnap is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  WordSnap is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with WordSnap.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources>
+
+	<string name="app_name">WordSnap OCR</string>
+	<string name="app_description">Use camera to recognize words</string>
+	<string name="activity_word_capture">WordSnap</string>
+	
+	<string name="about_url">http://www.bitquill.net/trac/wiki/Android/OCR</string>
+
+	<string name="status_guide_text">Place word inside finder and tap screen</string>
+    <string name="status_preprocessing_text">Extracting word from image</string>
+    <string name="status_preprocessing_error_text">Failed to find word; please try again</string>
+    <string name="status_processing_text">Contacting server for recognition</string>
+    <string name="status_processing_error_text">Server error; please try again</string>
+    <string name="status_finished_text">Recognition complete</string>
+    
+    <string name="edit_text_dialog_title">Edit text</string>
+    
+    <string name="warning_alert_dialog_title">Warning</string>
+    <string name="extent_warning_alert_message">Detected word extent is suspiciously large. You might help me by aligning word height better.</string>
+    <string name="contrast_warning_alert_message">Image contrast is too low. If there is a light nearby, please move closer.</string>
+    <string name="focus_warning_alert_message">Camera failed to autofocus. That\'s often ok, but if too severe, OCR will fail.</string>
+    <string name="send_anyway_button">Send anyway</string>
+    <string name="retake_photo_button">Take another photo</string>
+
+	<string name="pref_web_ocr_category">OCR service settings</string>
+	<string name="pref_weocr_server">WeOCR Server</string>
+	<string name="pref_weocr_server_summary">WeOCR server URL</string>
+<!--
+	<string name="pref_weocr_server_default">http://appsv.ocrgrid.org/cgi-bin/weocr/submit_ocrad.cgi</string>
+-->
+    <string name="pref_weocr_server_default">http://appsv.ocrgrid.org/cgi-bin/weocr/submit_tesseract.cgi</string>
+
+    <string name="pref_ui_category">User interface</string>
+    <string name="pref_edit_before">Edit result</string>
+    <string name="pref_edit_before_summary">Edit text before sharing</string>
+    <string name="pref_extent_alert">Extent size alert</string>
+    <string name="pref_extent_alert_summary">Warn if word extent is too large</string>
+    <string name="pref_extent_alert_default">edge</string>
+    <string name="pref_focus_alert">Focus alert</string>
+    <string name="pref_focus_alert_summary">Warn if image is out-of-focus</string>
+    <string name="pref_focus_alert_default">never</string>
+    <string name="pref_contrast_alert">Contrast alert</string>
+    <string name="pref_contrast_alert_summary">Warn if contrast is too low</string>
+    <string name="pref_contrast_alert_default"></string>
+
+	<string name="pref_advanced_category">Advanced settings</string>
+	<string name="pref_continuous_mode">Continuous mode</string>
+	<string name="pref_continuous_mode_summary">Continuous shooting and word detection</string>
+	<string name="pref_debug_dump">Dump image data</string>
+	<string name="pref_debug_dump_summary">Log captured images for debugging</string>
+    <string name="pref_dilate_radius">Dilation radius</string>
+    <string name="pref_dilate_radius_summary"></string>
+    <string name="pref_dilate_radius_default">medium</string>
+    
+
+    <string name="servers_dialog_title">Choose WeOCR server</string>
+    
+    <string name="ok_button">OK</string>
+    <string name="close_button">Close</string>
+
+	<string name="menu_settings">Settings</string>
+	<string name="menu_about">About</string>
+
+</resources>

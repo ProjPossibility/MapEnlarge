@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2009 Spiros Papadimitriou <spapadim@cs.cmu.edu>
+  
+  This file is part of WordSnap OCR.
+  
+  WordSnap is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  WordSnap is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with WordSnap.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources>
+    <item type="id" name="msg_ocr_detect_word" />
+    <item type="id" name="msg_ocr_recognize" />
+    <item type="id" name="msg_ocr_quit" />
+
+	<item type="id" name="msg_camera_auto_focus" />
+	<item type="id" name="msg_camera_preview_frame" />
+
+    <item type="id" name="msg_request_delayed_capture" />
+
+	<item type="id" name="msg_ui_word_bitmap" />
+	<item type="id" name="msg_ui_ocr_success" />
+	<item type="id" name="msg_ui_ocr_fail" />
+	<item type="id" name="msg_ui_reset_status" />
+	<item type="id" name="msg_ui_extent_warning" />
+	<item type="id" name="msg_ui_contrast_warning" />
+	<item type="id" name="msg_ui_focus_warning" />
+	<item type="id" name="msg_ui_wikipedia" />
+	<item type="id" name="msg_ui_web_search" />
+	<item type="id" name="msg_ui_clipboard" />
+</resources>
