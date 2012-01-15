@@ -1,34 +1,64 @@
 package com.ss12.mapenlarge;
 
+import java.io.IOException;
+import java.util.HashMap;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources.NotFoundException;
 import android.net.Uri;
-import android.widget.Toast;
+import android.util.Log;
 
 public class ResultReceiver extends BroadcastReceiver {
 	public static final int RECEIVER_INTENT = 23323211;
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		Toast.makeText(context, "BROADCAST RECEIVED!", Toast.LENGTH_LONG).show();
+		//Toast.makeText(context, "BROADCAST RECEIVED!", Toast.LENGTH_LONG).show();
 		
-		// TODO POLL SERVER AND LAUNCH MAP ACTIVITY
-
-		String map_url = "http://maps.google.com/maps?hl=en&ll=34.06745,-118.44841&spn=0.024636,0.045447&sll=37.0625,-95.677068&sspn=47.885545,93.076172&vpsrc=6&hnear=Strathmore+Dr,+Los+Angeles,+California&t=m&z=15&iwloc=A";
-
-		Intent result_intent = new Intent(context, ResultActivity.class);
-		result_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		context.startActivity(result_intent);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put(context.getResources().getString(R.string.web_service_uuid), Global.uuid);
 		
-		Intent map_intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(map_url));
-		map_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		context.startActivity(map_intent);
+		JSONObject resp = null;
+		try {
+			try {
+				resp = HttpHelper.get(context.getResources().getString(R.string.web_service_check_url), context.getResources().getString(R.string.web_service_uuid) + "=" + Global.uuid);
+				Log.i("response", resp.toString());
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+			} catch (NotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		
-		// TODO ONLY DO THIS IF NEEDED
-		/*Intent callback_intent = new Intent(context, ResultReceiver.class);
-		PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(), RECEIVER_INTENT, callback_intent, 0);
-		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, pendingIntent);*/
+			if (resp != null && resp.getBoolean("status")) {
+				// If status is true, we can get the link
+				String map_url = resp.getString("link");
+				
+				Intent result_intent = new Intent(context, ResultActivity.class);
+				result_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				context.startActivity(result_intent);
+				
+				Intent map_intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(map_url));
+				map_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				context.startActivity(map_intent);
+			} else {
+				// If the status is false, register another callback
+				Intent callback_intent = new Intent(context, ResultReceiver.class);
+				callback_intent.putExtras(intent);
+				PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(), RECEIVER_INTENT, callback_intent, 0);
+				AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+				alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, pendingIntent);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.ss12.mapenlarge;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -7,16 +8,23 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources.NotFoundException;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,6 +40,8 @@ public class ImageCaptureActivity extends MapActivity {
 	Button btn_capture_image;
 	Button btn_submit;
 	ImageView iv_preview;
+	
+	ProgressDialog pd;
 	
 	Uri imageUri;
 	
@@ -62,39 +72,12 @@ public class ImageCaptureActivity extends MapActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO SUBMIT
-				// Get the byte array of the bitmap
-				Bitmap bm = null;
-				try {	                
-	                HashMap<String, String> query = new HashMap<String, String>();
-	                query.put(getResources().getString(R.string.web_service_uuid), UUID.randomUUID().toString());
-	                HttpHelper.post(getResources().getString(R.string.web_service_url), query, getResources().getString(R.string.web_service_img), new File(imageUri.getPath()));
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (NullPointerException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (NotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				SubmitTask submit_task = new SubmitTask();
+				submit_task.execute((Void[]) null);
 			}
 		});
         
         iv_preview = (ImageView) findViewById(R.id.iv_preview);
-        
-        /*
-		Intent i = new Intent(ImageCaptureActivity.this, ResultReceiver.class);
-		PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), ResultReceiver.RECEIVER_INTENT, i, 0);
-		AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, pendingIntent);
-		*/
     }
 
 	@Override
@@ -110,10 +93,12 @@ public class ImageCaptureActivity extends MapActivity {
 	            ContentResolver cr = getContentResolver();
 	            Bitmap bitmap;
 	            try {
-	                 bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, selectedImage);
+	                bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, selectedImage); 
 
 	                imageView.setImageBitmap(bitmap);
-	                Toast.makeText(this, selectedImage.toString(), Toast.LENGTH_LONG).show();
+	                
+	                bitmap = null;
+	                //Toast.makeText(this, selectedImage.toString(), Toast.LENGTH_LONG).show();
 	            } catch (Exception e) {
 	                Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT).show();
 	                Log.e("Camera", e.toString());
@@ -126,5 +111,88 @@ public class ImageCaptureActivity extends MapActivity {
 	protected boolean isRouteDisplayed() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	private class SubmitTask extends AsyncTask<Void, Void, Boolean> {
+		@Override
+		protected void onPreExecute() {
+			pd = new ProgressDialog(ImageCaptureActivity.this);
+			pd.setMessage("Submitting image...");
+			
+			pd.show();
+		}
+		
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			String uuid = UUID.randomUUID().toString();
+			String image_url = "";
+			
+			Bitmap bitmap;
+			JSONObject resp;
+			try {
+				bitmap = android.provider.MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+			
+				// Creates Byte Array from picture
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				bitmap.compress(CompressFormat.JPEG, 100, baos);
+	
+				// Send to imgur
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("image", Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT));
+				map.put("key", "78959dfe8fe6b1be08d0eb3f50ea156c");
+				
+				baos.flush();
+				baos.close();
+				
+				bitmap.recycle();
+
+				resp = HttpHelper.post("http://api.imgur.com/2/upload.json", map, null, null);
+				image_url = resp.getJSONObject("upload").getJSONObject("links").getString("original");
+				
+				
+				// Send to our server
+				map.clear();
+				map.put(getResources().getString(R.string.web_service_uuid), uuid);
+				map.put(getResources().getString(R.string.web_service_image), image_url);
+				
+				resp = HttpHelper.post(getResources().getString(R.string.web_service_submit_url), map, null, null);
+				
+				if (!resp.getBoolean("status"))
+					return false;
+				else
+					Global.uuid = uuid;
+				
+				Log.i("response", resp.toString());
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		
+			// TODO DO SOMETHING WITH RESULT
+			
+			Intent i = new Intent(ImageCaptureActivity.this, ResultReceiver.class);
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), ResultReceiver.RECEIVER_INTENT, i, 0);
+			AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+			alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, pendingIntent);
+			
+			return true;
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean result) {
+			super.onPostExecute(result);
+			
+			pd.dismiss();
+			
+			if (result)
+				Toast.makeText(ImageCaptureActivity.this, "Submission Successful!  You will be notified when a result is found.", Toast.LENGTH_LONG).show();
+			else
+				Toast.makeText(ImageCaptureActivity.this, "Submission Unsuccessful.  Please try again.", Toast.LENGTH_LONG).show();
+		}
 	}
 }

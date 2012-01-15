@@ -3,7 +3,8 @@
     <string name="hello">Hello World, ImageCaptureActivity!</string>
     <string name="app_name"></string>
     
-    <string name="web_service_url">http://ss12.phpfogapp.com/index.php</string>
+    <string name="web_service_submit_url">http://ss12.phpfogapp.com/index.php</string>
+	<string name="web_service_check_url">http://ss12.phpfogapp.com/check.php</string>
     <string name="web_service_uuid">uuid</string>
-    <string name="web_service_img">img</string>
+    <string name="web_service_image">image</string>
 </resources>
