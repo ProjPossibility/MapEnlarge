@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="fill_parent"
+	android:layout_width="fill_parent"
+>
+	<LinearLayout
+		android:gravity="center_horizontal"
+		android:id="@+id/ll_button_bar"
+		android:layout_alignParentBottom="true"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:orientation="horizontal"
+	>
+		<Button
+			android:id="@+id/btn_capture_image"
+			android:layout_height="wrap_content"
+			android:layout_width="120dp"
+			android:text="Capture Image"
+		/>
+		
+		<Button
+			android:id="@+id/btn_submit"
+			android:layout_height="wrap_content"
+			android:layout_width="120dp"
+			android:text="Submit"
+		/>
+	</LinearLayout>
+	
+	<ImageView
+		android:layout_alignParentTop="true"
+		android:layout_above="@id/ll_button_bar"
+		android:id="@+id/iv_preview"
+		android:layout_height="fill_parent"
+		android:layout_width="fill_parent"
+	/>
+</RelativeLayout>
