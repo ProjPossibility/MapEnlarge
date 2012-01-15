@@ -66,6 +66,9 @@ $latestImage = $imagelinks[count($imagelinks) - 1];
 <title>Request</title>
 <head></head>
 <body>
+<h3>Instructions:</h3>
+<p>Look at the map picture and use street names to find the location on Google Maps. Submit.</p>
+
 <img src="<?php echo $latestImage->value->image_data;?>" width="500px" height="500px">
 
 <form action="response.php" method="post">
