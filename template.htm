@@ -1,0 +1,57 @@
+<!-- This file needs to be hosted on an external server.  -->
+<html>
+<script language="Javascript">
+//
+// This method Gets URL Parameters (GUP)
+//
+function gup( name )
+{
+  var regexS = "[\\?&]"+name+"=([^&#]*)";
+  var regex = new RegExp( regexS );
+  var tmpURL = window.location.href;
+  var results = regex.exec( tmpURL );
+  if( results == null )
+    return "";
+  else
+    return results[1];
+}
+
+</script>
+<body>
+<form id="mturk_form" method="POST" action="http://www.mturk.com/mturk/externalSubmit">
+<input type="hidden" id="assignmentId" name="assignmentId" value="">
+<h3>Look at the map picture and use street names to find the location on Google Maps. Submit the <a href="https://s3.amazonaws.com/ss12_mturk/instructions.jpg">link</a> for the given location.</h3>
+<p>
+
+<script language="Javascript">
+   document.write("<img src=\"https://s3.amazonaws.com/ss12_mturk/" + gup('img') + "\"></img>");
+</script>
+
+<textarea rows="1" cols="80">
+</textarea>
+<p>
+<input id="submitButton" type="submit" name="Submit" value="Submit">
+<p>
+
+</form>
+<script language="Javascript">
+    document.getElementById('assignmentId').value = gup('assignmentId');
+
+    //
+    // Check if the worker is PREVIEWING the HIT or if they've ACCEPTED the HIT
+    //
+    if (gup('assignmentId') == "ASSIGNMENT_ID_NOT_AVAILABLE")
+    {
+  // If we're previewing, disable the button and give it a helpful message
+  document.getElementById('submitButton').disabled = true;
+  document.getElementById('submitButton').value = "You must ACCEPT the HIT before you can submit the results.";
+    } else {
+        var form = document.getElementById('mturk_form');
+        if (document.referrer && ( document.referrer.indexOf('workersandbox') != -1) ) {
+            form.action = "http://workersandbox.mturk.com/mturk/externalSubmit";
+        }
+    }
+
+</script>
+</body>
+</html>
