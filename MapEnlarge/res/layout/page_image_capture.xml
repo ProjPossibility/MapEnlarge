@@ -9,6 +9,8 @@
 		android:id="@+id/ll_button_bar"
 		android:layout_alignParentBottom="true"
 		android:layout_height="wrap_content"
+		android:layout_marginBottom="10dp"
+		android:layout_marginTop="20dp"
 		android:layout_width="fill_parent"
 		android:orientation="horizontal"
 	>
@@ -28,8 +30,11 @@
 	</LinearLayout>
 	
 	<ImageView
-		android:layout_alignParentTop="true"
 		android:layout_above="@id/ll_button_bar"
+		android:layout_alignParentTop="true"
+		android:layout_marginTop="20dp"
+		android:layout_marginLeft="20dp"
+		android:layout_marginRight="20dp"
 		android:id="@+id/iv_preview"
 		android:layout_height="fill_parent"
 		android:layout_width="fill_parent"

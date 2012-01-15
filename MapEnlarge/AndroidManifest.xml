@@ -26,8 +26,6 @@
 				<action android:name="com.ss12.mapenlarge.ResultReceiver.RECEIVER_INTENT" />
 			</intent-filter>
 		</receiver>
-
-		<uses-library android:name="com.google.android.maps" />
     </application>
     <uses-sdk android:minSdkVersion="8" />
 

@@ -32,9 +32,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.maps.MapActivity;
-
-public class ImageCaptureActivity extends MapActivity {
+public class ImageCaptureActivity extends Activity {
 	private static final int TAKE_PICTURE = 0;
 	
 	Button btn_capture_image;
@@ -83,7 +81,7 @@ public class ImageCaptureActivity extends MapActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
+		
 	    switch (requestCode) {
 	    case TAKE_PICTURE:
 	        if (resultCode == Activity.RESULT_OK) {
@@ -105,12 +103,6 @@ public class ImageCaptureActivity extends MapActivity {
 	            }
 	        }
 	    }
-	}
-
-	@Override
-	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 	
 	private class SubmitTask extends AsyncTask<Void, Void, Boolean> {

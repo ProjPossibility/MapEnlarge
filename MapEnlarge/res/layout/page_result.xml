@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:gravity="center"
 	android:layout_height="fill_parent"
 	android:layout_width="fill_parent"
+	android:orientation="vertical"
 >
+	<TextView
+		android:gravity="center"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:text="Please provide feedback on the returned result:"
+		android:textSize="24dp"
+	/>
+	
 	<LinearLayout
 		android:gravity="center_horizontal"
 		android:id="@+id/ll_button_bar"
-		android:layout_centerInParent="true"
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
 		android:orientation="horizontal"
@@ -26,15 +35,4 @@
 			android:text="Bad"
 		/>		
 	</LinearLayout>
-	
-	<!-- <com.google.android.maps.MapView
-		android:apiKey="0gyqwDNY3bRwdimwgdkWn7OgIGScwcQF-QKljDg"
-		android:clickable="true"
-		android:id="@+id/mapview"
-		android:layout_above="@id/ll_button_bar"
-		android:layout_alignParentTop="true"
-		android:layout_height="fill_parent"
-		android:layout_margin="10dp"
-		android:layout_width="fill_parent"
-	/> -->
-</RelativeLayout>
+</LinearLayout>
